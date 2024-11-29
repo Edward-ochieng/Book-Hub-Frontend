@@ -1,23 +1,22 @@
-import React from 'react';
-import BookList from '../BookList/BookList';
+import React from "react";
+import BookList from "../BookList/BookList";
 import Navbar from "../Navbar/Navbar";
 import SearchForm from "../SearchForm/SearchForm";
 import "./Header.css";
 
-
-const Header = ({user,setUser}) => {
+const Header = ({ user, setUser }) => {
   return (
-    <div className='holder'>
-        <header className='header'>
-            <div className='header-content flex flex-c text-center text-white'>
-                <h2 className='header-title text-capitalize'>Hi, we're Bookhub.</h2><br />
-                <p className='header-text fs-18 fw-3'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae sapiente quibusdam consequatur perspiciatis facere laboriosam non nesciunt at id repudiandae, modi iste? Eligendi, rerum!</p>
-                <SearchForm />
-            </div>
-        </header>
+    <div className="holder">
+      <header className="header">
+        <div className="header-content flex flex-c text-center text-white">
+          <h2 className="header-title text-capitalize">Hi, we're Bookhub.</h2>
+          <br />
 
+          <SearchForm />
+        </div>
+      </header>
     </div>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

@@ -16,8 +16,8 @@ const About = () => {
           </div>
           <div className='about-text'>
             <h2 className='about-title fs-26 ls-1'>About BookHub</h2>
-            <p className='fs-17'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus dignissimos consequuntur vero commodi provident maiores, iusto atque corrupti voluptate vel sequi consectetur unde aliquam corporis saepe animi non, tempora reiciendis molestias sed laudantium dolores. Assumenda aperiam fuga quo voluptate commodi ullam aliquam expedita voluptas delectus.</p>
-            <p className='fs-17'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor, dicta, possimus inventore eveniet atque voluptatibus repellendus aspernatur illo aliquam dignissimos illum. Commodi, porro omnis dolore amet neque modi quas eum!</p>
+            <p className='fs-17'>In the digital age, books have transcended physical boundaries, and online platforms have become central to the experience of reading. Readers seek not only access to vast libraries but also a space to connect, share, and discover. Online book review platforms have emerged as valuable resources, guiding readers through the abundance of choices and fostering a sense of community. However, existing platforms often lack the user-friendliness, focused features, and sense of community that enhance the book discovery and review process. Book-Hub aims to address this gap by providing a dedicated space for readers to explore books, share their insights, and engage in meaningful discussions with fellow book enthusiasts.</p>
+        
           </div>
         </div>
       </div>
