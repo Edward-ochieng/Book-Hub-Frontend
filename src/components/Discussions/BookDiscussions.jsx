@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { createConsumer } from "@rails/actioncable";
+import { TrashIcon } from "@heroicons/react/24/outline";
 
 function BookDiscussions({ bookId, user }) {
-  console.log("BookId received:", bookId); // Debug log
   const [discussions, setDiscussions] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [channel, setChannel] = useState(null);
@@ -49,11 +49,19 @@ function BookDiscussions({ bookId, user }) {
         },
         received: (data) => {
           console.log("Received WebSocket data:", data);
-          setDiscussions((prev) =>
-            [data, ...(Array.isArray(prev) ? prev : [])]
-              .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-              .slice(0, 3)
-          );
+          if (data.action === "delete") {
+            // Handle deletion
+            setDiscussions((prev) =>
+              prev.filter((discussion) => discussion.id !== data.id)
+            );
+          } else {
+            // Handle new discussion
+            setDiscussions((prev) =>
+              [data, ...(Array.isArray(prev) ? prev : [])]
+                .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+                .slice(0, 3)
+            );
+          }
         },
       }
     );
@@ -114,6 +122,29 @@ function BookDiscussions({ bookId, user }) {
     }
   };
 
+  const handleDelete = async (discussionId) => {
+    try {
+      const response = await fetch(
+        `/books/${bookId}/discussions/${discussionId}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!response.ok) {
+        const error = await response.json();
+        console.error("Failed to delete discussion:", error);
+      } else {
+        // Update local state to remove the deleted discussion
+        setDiscussions((prev) =>
+          prev.filter((discussion) => discussion.id !== discussionId)
+        );
+      }
+    } catch (error) {
+      console.error("Error deleting discussion:", error);
+    }
+  };
+
   // Add a guard clause for rendering
   if (!Array.isArray(discussions)) {
     console.log("Discussions is not an array:", discussions); // Debug log
@@ -148,10 +179,20 @@ function BookDiscussions({ bookId, user }) {
         {console.log("Rendering discussions:", discussions)} {/* Debug log */}
         {discussions.slice(0, 3).map((discussion) => (
           <div key={discussion.id} className="p-3 border rounded">
-            <div className="font-bold">{discussion.username}</div>
-            <div>{discussion.content}</div>
-            <div className="text-sm text-gray-500">
-              {new Date(discussion.created_at).toLocaleString()}
+            <div className="flex justify-between items-start">
+              <div>
+                <div className="font-bold">{discussion.username}</div>
+                <div>{discussion.content}</div>
+                <div className="text-sm text-gray-500">
+                  {new Date(discussion.created_at).toLocaleString()}
+                </div>
+              </div>
+              {user && user.user.id === discussion.user_id && (
+                <TrashIcon
+                  className="h-5 w-5 text-red-500 cursor-pointer hover:text-red-700"
+                  onClick={() => handleDelete(discussion.id)}
+                />
+              )}
             </div>
           </div>
         ))}
